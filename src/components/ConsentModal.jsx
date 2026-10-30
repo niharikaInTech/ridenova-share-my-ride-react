@@ -1,6 +1,3 @@
-// ConsentModal.jsx
-// The pop-up that asks permission before sharing location.
-
 export default function ConsentModal({ onYes, onNo }) {
   return (
     <div className="modal" role="dialog" aria-modal="true" aria-labelledby="consentTitle">

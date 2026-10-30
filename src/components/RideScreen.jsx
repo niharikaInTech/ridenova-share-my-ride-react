@@ -1,7 +1,3 @@
-// RideScreen.jsx
-// Shows the captain, the OTP, the progress, and the buttons to share the ride on WhatsApp.
-// The "stage" tells which part of the ride we are in: "arriving", "riding" or "completed".
-
 import WhatsAppButtons from "./WhatsAppButtons";
 import { CAPTAIN } from "../constants";
 import { buildRideMessage } from "../messages";
@@ -27,7 +23,6 @@ export default function RideScreen(props) {
     status = "You have reached " + drop.name + ".";
   }
 
-  // Tell the rider clearly whether location is being shared
   let shareText;
   if (location.shareLocation && location.liveLocation) {
     shareText = "Location sharing is ON (" + location.liveLocation.lat.toFixed(4) + ", " +

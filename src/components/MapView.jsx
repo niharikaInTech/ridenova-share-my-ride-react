@@ -1,12 +1,7 @@
-// MapView.jsx
-// The Leaflet map. React does not know about Leaflet, so we use "refs" and "useEffect"
-// to create the map once, and then update the markers and lines when the props change.
-
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import { MAP_CENTER } from "../constants";
 
-// A round or square dot drawn with CSS (no image files needed)
 function makePin(cssClass, html) {
   return L.divIcon({
     className: "pin " + cssClass,
@@ -16,27 +11,23 @@ function makePin(cssClass, html) {
   });
 }
 
-// Zooms the map so all given points are visible, but not hidden behind the panel
 function fitMap(map, latlngs) {
   const isLaptop = window.innerWidth >= 800;
   map.fitBounds(L.latLngBounds(latlngs), {
-    paddingTopLeft: [isLaptop ? 440 : 30, 40],                              // panel is on the left on laptops
-    paddingBottomRight: [30, isLaptop ? 40 : window.innerHeight * 0.55]     // panel is at the bottom on phones
+    paddingTopLeft: [isLaptop ? 440 : 30, 40],
+    paddingBottomRight: [30, isLaptop ? 40 : window.innerHeight * 0.55]
   });
 }
 
 export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePosition, onSelectRoute }) {
-  const containerRef = useRef(null);   // the <div> where the map is drawn
-  const mapRef = useRef(null);         // the Leaflet map object
+  const containerRef = useRef(null);
+  const mapRef = useRef(null);
   const vehicleMarkerRef = useRef(null);
 
-  // 1. Create the map once, when the component first appears
   useEffect(function () {
     const map = L.map(containerRef.current, { zoomControl: false }).setView(MAP_CENTER, 12);
     L.control.zoom({ position: "topright" }).addTo(map);
 
-    // Free OpenStreetMap tiles (no API key needed).
-    // The dark look comes from a CSS filter in styles.css, not from the tiles.
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors",
       maxZoom: 19
@@ -44,7 +35,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
 
     mapRef.current = map;
 
-    // The function we return runs when the component is removed
     return function () {
       map.remove();
       mapRef.current = null;
@@ -52,7 +42,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
     };
   }, []);
 
-  // 2. Pickup marker (the function we return removes the old marker before drawing a new one)
   useEffect(function () {
     const map = mapRef.current;
     if (!map || !pickup) {
@@ -64,7 +53,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
     };
   }, [pickup]);
 
-  // 3. Drop marker
   useEffect(function () {
     const map = mapRef.current;
     if (!map || !drop) {
@@ -76,7 +64,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
     };
   }, [drop]);
 
-  // 4. Zoom the map when the places change
   useEffect(function () {
     const map = mapRef.current;
     if (!map) {
@@ -88,11 +75,10 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
       const place = pickup || drop;
       map.setView([place.lat, place.lng], 14);
     } else {
-      map.setView(MAP_CENTER, 12);   // back to the start (after "Book another ride")
+      map.setView(MAP_CENTER, 12);
     }
   }, [pickup, drop]);
 
-  // 5. Zoom to the routes when new routes arrive
   useEffect(function () {
     const map = mapRef.current;
     if (map && routes.length > 0) {
@@ -100,7 +86,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
     }
   }, [routes]);
 
-  // 6. Draw the route lines. The chosen one is thick and gold, the others thin and grey.
   useEffect(function () {
     const map = mapRef.current;
     if (!map || routes.length === 0) {
@@ -118,7 +103,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
         opacity: isSelected ? 1 : 0.6
       }).addTo(map);
 
-      // Clicking a line on the map chooses that route
       line.on("click", function () {
         onSelectRoute(route);
       });
@@ -140,7 +124,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
     };
   }, [routes, selectedRoute]);
 
-  // 7. Move the vehicle marker along the route
   useEffect(function () {
     const map = mapRef.current;
     if (!map) {
@@ -148,7 +131,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
     }
 
     if (!vehiclePosition) {
-      // No ride going on, so remove the marker if it exists
       if (vehicleMarkerRef.current) {
         vehicleMarkerRef.current.remove();
         vehicleMarkerRef.current = null;
@@ -162,7 +144,6 @@ export default function MapView({ pickup, drop, routes, selectedRoute, vehiclePo
       vehicleMarkerRef.current.setLatLng(vehiclePosition);
     }
 
-    // If the vehicle goes outside the visible map, move the map to follow it
     if (!map.getBounds().contains(vehiclePosition)) {
       map.panTo(vehiclePosition);
     }

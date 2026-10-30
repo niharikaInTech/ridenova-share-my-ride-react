@@ -1,7 +1,3 @@
-/* style.css
-   Mobile-first: the base styles are for phones (panel at the bottom).
-   The @media block at the end moves the panel to the left on laptops. */
-
 :root {
   --bg: #0c0c0c;
   --card: #151515;
@@ -12,11 +8,9 @@
   --green: #3fb97a;
   --red: #e5554b;
 }
-
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
   background: var(--bg);
@@ -24,24 +18,17 @@ body {
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
   line-height: 1.45;
 }
-
 .hidden {
   display: none !important;
 }
-
-/* ---------- map ---------- */
 #map {
   position: fixed;
   inset: 0;
   z-index: 0;
 }
-
-/* Turns the light OpenStreetMap tiles into a dark map.
-   Only the tile layer is filtered, so markers and route lines keep their colours. */
 .leaflet-tile-pane {
   filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
 }
-
 .pin {
   border-radius: 50%;
   border: 3px solid #fff;
@@ -51,12 +38,9 @@ body {
   justify-content: center;
   font-size: 13px;
 }
-
 .pickupPin { background: var(--green); }
 .dropPin   { background: var(--red); border-radius: 5px; }
 .carPin    { background: var(--gold); }
-
-/* ---------- booking panel ---------- */
 .sheet {
   position: fixed;
   z-index: 1100;
@@ -71,46 +55,38 @@ body {
   border-radius: 18px 18px 0 0;
   box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
 }
-
 .brand {
   display: flex;
   flex-direction: column;
   margin-bottom: 8px;
 }
-
 .brand strong {
   color: var(--gold);
   font-size: 1.2rem;
 }
-
 .brand span {
   color: var(--muted);
   font-size: 0.8rem;
 }
-
 h2 {
   margin: 6px 0 8px;
   font-size: 1.2rem;
 }
-
 h3 {
   margin: 14px 0 6px;
   font-size: 0.95rem;
 }
-
 .hint {
   color: var(--muted);
   font-size: 0.85rem;
   margin: 4px 0;
 }
-
 .error {
   color: var(--red);
   font-size: 0.9rem;
   margin: 6px 0;
   min-height: 1.2em;
 }
-
 .notice {
   background: #2b2410;
   border: 1px solid var(--gold);
@@ -118,47 +94,39 @@ h3 {
   padding: 8px 10px;
   font-size: 0.85rem;
 }
-
-/* ---------- form fields ---------- */
 label {
   display: block;
   margin: 10px 0 4px;
   font-size: 0.9rem;
   color: var(--muted);
 }
-
 input[type="text"],
 input[type="tel"] {
   width: 100%;
   padding: 10px;
-  font-size: 1rem;           /* 16px stops phones from zooming in */
+  font-size: 1rem;
   background: #0f0f0f;
   color: var(--text);
   border: 1px solid var(--line);
   border-radius: 8px;
 }
-
 .searchRow {
   display: flex;
   gap: 8px;
 }
-
 .row {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   margin-top: 8px;
 }
-
 .row > input {
   flex: 1 1 130px;
   width: auto;
 }
-
 .row > button {
   flex: 1 1 140px;
 }
-
 .checkRow {
   display: flex;
   align-items: center;
@@ -166,11 +134,9 @@ input[type="tel"] {
   margin: 14px 0 10px;
   color: var(--text);
 }
-
-/* ---------- buttons ---------- */
 button,
 .callBtn {
-  min-height: 44px;          /* big enough to tap with a thumb */
+  min-height: 44px;
   padding: 10px 16px;
   font-size: 1rem;
   font-family: inherit;
@@ -180,12 +146,10 @@ button,
   color: var(--text);
   cursor: pointer;
 }
-
 button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
-
 button:focus-visible,
 input:focus-visible,
 summary:focus-visible,
@@ -193,7 +157,6 @@ summary:focus-visible,
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
-
 .primary {
   width: 100%;
   margin-top: 8px;
@@ -202,26 +165,22 @@ summary:focus-visible,
   border-color: var(--gold);
   font-weight: 600;
 }
-
 .secondary {
   width: 100%;
   margin-top: 8px;
 }
-
 .good {
   background: var(--green);
   border-color: var(--green);
   color: #06210f;
   font-weight: 600;
 }
-
 .danger {
   background: var(--red);
   border-color: var(--red);
   color: #fff;
   font-weight: 600;
 }
-
 .linkBtn {
   min-height: 0;
   padding: 6px 4px;
@@ -230,7 +189,6 @@ summary:focus-visible,
   color: var(--gold);
   font-size: 0.9rem;
 }
-
 .callBtn {
   display: block;
   margin-top: 12px;
@@ -242,7 +200,6 @@ summary:focus-visible,
   font-weight: 600;
   line-height: 24px;
 }
-
 .waBtn {
   display: block;
   width: 100%;
@@ -252,8 +209,6 @@ summary:focus-visible,
   color: #fff;
   font-weight: 600;
 }
-
-/* ---------- search results ---------- */
 .resultItem {
   display: block;
   width: 100%;
@@ -264,14 +219,11 @@ summary:focus-visible,
   font-size: 0.9rem;
   background: #0f0f0f;
 }
-
-/* ---------- route chips ---------- */
 #routeList {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
-
 .routeChip {
   flex: 1 1 100px;
   display: flex;
@@ -281,19 +233,15 @@ summary:focus-visible,
   font-size: 0.85rem;
   background: #0f0f0f;
 }
-
 .routeChip span {
   color: var(--muted);
   text-align: left;
 }
-
 .routeChip.selected,
 .vehicleRow.selected {
   border-color: var(--gold);
   background: #1c170a;
 }
-
-/* ---------- ride types ---------- */
 .vehicleRow {
   display: flex;
   align-items: center;
@@ -304,28 +252,22 @@ summary:focus-visible,
   text-align: left;
   background: #0f0f0f;
 }
-
 .vehicleIcon {
   font-size: 1.6rem;
 }
-
 .vehicleInfo {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-
 .vehicleInfo .hint {
   margin: 0;
   font-size: 0.8rem;
 }
-
 .vehiclePrice {
   color: var(--gold);
   font-size: 1.05rem;
 }
-
-/* ---------- fare breakdown ---------- */
 .fareBox {
   margin-top: 10px;
   padding: 10px 12px;
@@ -333,11 +275,9 @@ summary:focus-visible,
   border: 1px solid var(--line);
   border-radius: 10px;
 }
-
 .fareBox h3 {
   margin-top: 0;
 }
-
 .fareLine {
   display: flex;
   justify-content: space-between;
@@ -345,7 +285,6 @@ summary:focus-visible,
   padding: 3px 0;
   font-size: 0.9rem;
 }
-
 .fareLine.total {
   margin-top: 4px;
   padding-top: 8px;
@@ -353,20 +292,16 @@ summary:focus-visible,
   font-weight: 700;
   color: var(--gold);
 }
-
-/* ---------- contacts ---------- */
 .contactsBox {
   margin-top: 14px;
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
 }
-
 .contactsBox summary {
   cursor: pointer;
   font-weight: 600;
 }
-
 .contactRow {
   display: flex;
   align-items: center;
@@ -374,20 +309,16 @@ summary:focus-visible,
   padding: 6px 0;
   border-bottom: 1px solid var(--line);
 }
-
 .contactRow input[type="checkbox"],
 .checkRow input[type="checkbox"] {
   width: 20px;
   height: 20px;
   accent-color: var(--gold);
 }
-
 .contactName {
   flex: 1;
   word-break: break-word;
 }
-
-/* ---------- finding captain ---------- */
 .pulse {
   width: 48px;
   height: 48px;
@@ -396,17 +327,13 @@ summary:focus-visible,
   background: var(--gold);
   animation: pulse 1.2s ease-in-out infinite;
 }
-
 @keyframes pulse {
   0%   { transform: scale(0.6); opacity: 1; }
   100% { transform: scale(1.4); opacity: 0.1; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .pulse { animation: none; }
 }
-
-/* ---------- ride screen ---------- */
 .captain {
   display: flex;
   align-items: center;
@@ -416,7 +343,6 @@ summary:focus-visible,
   border: 1px solid var(--line);
   border-radius: 10px;
 }
-
 .avatar {
   width: 44px;
   height: 44px;
@@ -428,59 +354,48 @@ summary:focus-visible,
   align-items: center;
   justify-content: center;
 }
-
 .captainInfo {
   flex: 1;
 }
-
 .captainInfo p {
   margin: 0;
 }
-
 .otp {
   text-align: center;
   font-size: 0.75rem;
   color: var(--muted);
 }
-
 .otp strong {
   display: block;
   font-size: 1.2rem;
   letter-spacing: 2px;
   color: var(--gold);
 }
-
 .status {
   font-weight: 600;
   margin: 12px 0 6px;
 }
-
 .progressBar {
   height: 6px;
   background: var(--line);
   border-radius: 3px;
   overflow: hidden;
 }
-
 #progressFill {
   height: 100%;
   width: 0;
   background: var(--gold);
   transition: width 0.2s linear;
 }
-
 .shareBox {
   margin-top: 12px;
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
 }
-
 .shareBox h3 {
   margin-top: 0;
 }
-
-/* ---------- check-in ---------- */
 .bubble {
   background: #12281c;
   border: 1px solid #1f4631;
@@ -488,24 +403,19 @@ summary:focus-visible,
   padding: 10px 12px;
   margin: 8px 0;
 }
-
 .result {
   margin-top: 10px;
   padding: 10px 12px;
   border-radius: 8px;
 }
-
 .result.good {
   background: #12281c;
   border: 1px solid var(--green);
 }
-
 .result.bad {
   background: #2b1412;
   border: 1px solid var(--red);
 }
-
-/* ---------- location pop-up ---------- */
 .modal {
   position: fixed;
   inset: 0;
@@ -516,7 +426,6 @@ summary:focus-visible,
   padding: 16px;
   background: rgba(0, 0, 0, 0.75);
 }
-
 .modalBox {
   width: 100%;
   max-width: 380px;
@@ -525,12 +434,9 @@ summary:focus-visible,
   border: 1px solid var(--line);
   border-radius: 14px;
 }
-
 .modalBox p {
   color: var(--muted);
 }
-
-/* ---------- laptops: panel on the left ---------- */
 @media (min-width: 800px) {
   .sheet {
     top: 16px;

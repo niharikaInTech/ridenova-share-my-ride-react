@@ -1,11 +1,6 @@
-// messages.js
-// Builds the WhatsApp message texts.
-// "info" is an object: { riderName, pickup, drop, vehicle, shareLocation, liveLocation }
-
 import { CAPTAIN } from "./constants";
 import { buildMapsLink } from "./utils";
 
-// Adds the location link only if the rider allowed sharing
 function getLocationText(info) {
   if (info.shareLocation && info.liveLocation) {
     return " My live location: " + buildMapsLink(info.liveLocation.lat, info.liveLocation.lng);

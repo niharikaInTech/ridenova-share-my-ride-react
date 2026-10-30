@@ -1,6 +1,3 @@
-// OptionsScreen.jsx
-// Screen 2: choose the route and the ride type, see the fare, add contacts, then book.
-
 import RouteList from "./RouteList";
 import VehicleList from "./VehicleList";
 import FareBreakdown from "./FareBreakdown";

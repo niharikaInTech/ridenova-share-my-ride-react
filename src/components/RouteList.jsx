@@ -1,6 +1,3 @@
-// RouteList.jsx
-// The route buttons (Fastest, Shortest, ...). Tapping one chooses that route.
-
 export default function RouteList({ routes, selectedRoute, onSelect }) {
   return (
     <div id="routeList">

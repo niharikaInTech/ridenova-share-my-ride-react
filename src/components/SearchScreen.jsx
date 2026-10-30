@@ -1,6 +1,3 @@
-// SearchScreen.jsx
-// Screen 1: choose pickup and drop-off.
-
 import { useState } from "react";
 import PlaceField from "./PlaceField";
 
@@ -9,7 +6,7 @@ export default function SearchScreen({ pickup, drop, setPickup, setDrop, onSeeRo
 
   async function handleSeeRoutes() {
     setLoading(true);
-    await onSeeRoutes();   // wait until the routes are ready
+    await onSeeRoutes();
     setLoading(false);
   }
 

@@ -1,6 +1,3 @@
-// main.jsx
-// The starting point. It puts the <App /> component inside the #root div.
-
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "leaflet/dist/leaflet.css";

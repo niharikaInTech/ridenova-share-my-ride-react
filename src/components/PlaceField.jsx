@@ -1,18 +1,14 @@
-// PlaceField.jsx
-// One search box for a place. We use it twice: once for pickup and once for drop-off.
-
 import { useState, useId } from "react";
 import { searchPlaces, reverseGeocode } from "../api";
 
 export default function PlaceField({ label, placeholder, place, onChoose, onClear, allowCurrentLocation }) {
-  const inputId = useId();   // gives a unique id so the label is linked to the input
+  const inputId = useId();
 
   const [text, setText] = useState(place ? place.name : "");
   const [results, setResults] = useState([]);
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
 
-  // Called when the user taps a search result (or we get the current location)
   function handlePick(chosenPlace) {
     setText(chosenPlace.name);
     setResults([]);
@@ -21,7 +17,6 @@ export default function PlaceField({ label, placeholder, place, onChoose, onClea
     onChoose(chosenPlace);
   }
 
-  // If the user edits the text after choosing, the old choice is no longer valid
   function handleChange(event) {
     setText(event.target.value);
     if (place) {
@@ -50,7 +45,6 @@ export default function PlaceField({ label, placeholder, place, onChoose, onClea
     }
   }
 
-  // "Use my current location": asks the browser for GPS permission
   function handleUseLocation() {
     setError("");
     if (!navigator.geolocation) {
@@ -66,7 +60,6 @@ export default function PlaceField({ label, placeholder, place, onChoose, onClea
       try {
         name = await reverseGeocode(lat, lng);
       } catch (err) {
-        // If we cannot find the address, we keep the default name
       }
       handlePick({ name, fullName: name, lat, lng });
     }, function () {

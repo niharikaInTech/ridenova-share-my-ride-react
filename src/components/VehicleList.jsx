@@ -1,6 +1,3 @@
-// VehicleList.jsx
-// The ride types (Bike, Auto, Go, Prime, XL) with their fare for the chosen route.
-
 import { VEHICLES } from "../constants";
 import { calculateFare, getVehicleMinutes, formatRupees, formatTime } from "../utils";
 

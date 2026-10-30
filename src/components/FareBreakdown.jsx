@@ -1,9 +1,5 @@
-// FareBreakdown.jsx
-// Shows exactly how the fare was calculated (cost transparency).
-
 import { calculateFare, getVehicleMinutes, formatRupees } from "../utils";
 
-// One line: a label on the left and an amount on the right
 function FareLine({ label, amount, isTotal }) {
   return (
     <div className={isTotal ? "fareLine total" : "fareLine"}>

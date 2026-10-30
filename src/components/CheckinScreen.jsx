@@ -1,20 +1,13 @@
-// CheckinScreen.jsx
-// After a night ride we ask "Did you reach safely?".
-//   Yes             -> the rider can tell the contacts on WhatsApp
-//   No / no reply   -> the rider can alert the contacts, and the 112 button is shown
-
 import { useState, useEffect } from "react";
 import WhatsAppButtons from "./WhatsAppButtons";
 import { CHECKIN_WAIT_SECONDS } from "../constants";
 import { buildSafeMessage, buildAlertMessage } from "../messages";
 
 export default function CheckinScreen({ riderName, drop, sharedContacts, messageInfo, onNewRide }) {
-  // answer is "waiting" at first, then "safe" or "alert"
   const [answer, setAnswer] = useState("waiting");
   const [alertReason, setAlertReason] = useState("");
   const [secondsLeft, setSecondsLeft] = useState(CHECKIN_WAIT_SECONDS);
 
-  // Countdown: runs every second, but only while we are still waiting for the answer
   useEffect(function () {
     if (answer !== "waiting") {
       return;
@@ -27,7 +20,6 @@ export default function CheckinScreen({ riderName, drop, sharedContacts, message
     };
   }, [answer]);
 
-  // If the time runs out, we treat it as a problem
   useEffect(function () {
     if (answer === "waiting" && secondsLeft <= 0) {
       setAlertReason("did not reply to the safety check-in");

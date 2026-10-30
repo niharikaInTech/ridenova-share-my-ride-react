@@ -1,8 +1,3 @@
-// App.jsx
-// The main component. It keeps the important data (state) and decides which screen to show.
-// The "stage" tells where the rider is in the booking:
-//   search -> options -> finding -> arriving -> riding -> checkin (night) or completed (day)
-
 import { useState, useEffect } from "react";
 
 import MapView from "./components/MapView";
@@ -19,28 +14,23 @@ import { labelRoutes, isNightTime } from "./utils";
 import { VEHICLES, DEMO_RIDE_SECONDS, TICK_MS } from "./constants";
 
 export default function App() {
-  // ----- state: data that changes while the app is used -----
   const [stage, setStage] = useState("search");
   const [pickup, setPickup] = useState(null);
   const [drop, setDrop] = useState(null);
   const [routes, setRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
-  const [selectedVehicle, setSelectedVehicle] = useState(VEHICLES[2]);   // start with RideNova Go
+  const [selectedVehicle, setSelectedVehicle] = useState(VEHICLES[2]);
   const [usedBackupRoute, setUsedBackupRoute] = useState(false);
   const [riderName, setRiderName] = useState("Priya");
   const [nightToggle, setNightToggle] = useState(false);
   const [showConsent, setShowConsent] = useState(false);
   const [otp, setOtp] = useState("");
-  const [progress, setProgress] = useState(0);   // 0 to 100 (percentage of the ride completed)
+  const [progress, setProgress] = useState(0);
 
-  // ----- custom hooks: they hold the contacts and the location logic -----
   const contactsApi = useContacts();
   const location = useLocationSharing();
   const sharedContacts = contactsApi.contacts.filter(function (c) { return c.shared; });
 
-  // ----- timers: each one starts when the stage changes and is cleaned up when it changes again -----
-
-  // After 2.5 seconds of "finding a captain", the captain arrives
   useEffect(function () {
     if (stage !== "finding") {
       return;
@@ -49,7 +39,6 @@ export default function App() {
     return function () { clearTimeout(id); };
   }, [stage]);
 
-  // After 3 seconds, the trip starts
   useEffect(function () {
     if (stage !== "arriving") {
       return;
@@ -58,34 +47,29 @@ export default function App() {
     return function () { clearTimeout(id); };
   }, [stage]);
 
-  // While riding, move forward a little every TICK_MS milliseconds
   useEffect(function () {
     if (stage !== "riding") {
       return;
     }
-    const totalTicks = (DEMO_RIDE_SECONDS * 1000) / TICK_MS;   // 30 s / 0.2 s = 150 ticks
+    const totalTicks = (DEMO_RIDE_SECONDS * 1000) / TICK_MS;
     const id = setInterval(function () {
       setProgress(function (old) {
         const next = old + 100 / totalTicks;
-        return next > 99.999 ? 100 : next;   // avoids tiny decimal errors
+        return next > 99.999 ? 100 : next;
       });
     }, TICK_MS);
     return function () { clearInterval(id); };
   }, [stage]);
 
-  // When progress reaches 100, the ride ends. Night rides get a safety check-in.
   useEffect(function () {
     if (stage !== "riding" || progress < 100) {
       return;
     }
-    location.stopWatching();   // no more live updates after the trip ends
+    location.stopWatching();
     const isNight = nightToggle || isNightTime(new Date());
     setStage(isNight ? "checkin" : "completed");
   }, [stage, progress]);
 
-  // ----- actions -----
-
-  // "See routes and fares": get real routes (or an estimated one if the service is down)
   async function handleSeeRoutes() {
     let found;
     let usedBackup = false;
@@ -98,7 +82,7 @@ export default function App() {
 
     const labelled = labelRoutes(found);
     setRoutes(labelled);
-    setSelectedRoute(labelled[0]);   // start with the fastest
+    setSelectedRoute(labelled[0]);
     setUsedBackupRoute(usedBackup);
     setStage("options");
   }
@@ -109,7 +93,6 @@ export default function App() {
     setStage("search");
   }
 
-  // "Book": ask about location only if there is someone to share it with
   function handleBook() {
     if (sharedContacts.length > 0) {
       setShowConsent(true);
@@ -118,11 +101,10 @@ export default function App() {
     }
   }
 
-  // The rider answered the location pop-up
   function handleConsent(allow) {
     setShowConsent(false);
     if (allow) {
-      location.requestLocationSharing(startBooking);   // startBooking runs after the browser's permission box is answered
+      location.requestLocationSharing(startBooking);
     } else {
       location.declineSharing();
       startBooking();
@@ -131,11 +113,10 @@ export default function App() {
 
   function startBooking() {
     setProgress(0);
-    setOtp(String(1000 + Math.floor(Math.random() * 9000)));   // random 4-digit OTP
+    setOtp(String(1000 + Math.floor(Math.random() * 9000)));
     setStage("finding");
   }
 
-  // "Book another ride": put everything back to the start
   function resetApp() {
     location.resetLocation();
     setPickup(null);
@@ -146,9 +127,6 @@ export default function App() {
     setStage("search");
   }
 
-  // ----- values we pass down to other components -----
-
-  // The vehicle's position on the map: a point on the route, based on the progress
   let vehiclePosition = null;
   const onRide = ["arriving", "riding", "checkin", "completed"].includes(stage);
   if (onRide && selectedRoute) {
@@ -156,7 +134,6 @@ export default function App() {
     vehiclePosition = points[Math.floor((progress / 100) * (points.length - 1))];
   }
 
-  // Everything the WhatsApp messages need
   const messageInfo = {
     riderName: riderName.trim() === "" ? "Rider" : riderName.trim(),
     pickup: pickup,

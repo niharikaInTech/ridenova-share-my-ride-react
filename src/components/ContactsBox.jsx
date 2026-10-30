@@ -1,12 +1,8 @@
-// ContactsBox.jsx
-// Add, remove and tick trusted contacts. The list itself lives in the useContacts hook.
-
 import { useState } from "react";
 
 export default function ContactsBox({ contactsApi, riderName, onRiderNameChange }) {
   const { contacts, addContact, removeContact, toggleShared } = contactsApi;
 
-  // These are "controlled inputs": React keeps their text in state
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
